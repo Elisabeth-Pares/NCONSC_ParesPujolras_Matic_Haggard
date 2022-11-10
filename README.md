@@ -15,7 +15,7 @@ The folder SCRIPTS contains four main scripts:
       • Expt2_Analysis.R: R script for Experiment 1 postprocessing, plotting & statistical analysis. Input: high-level data provided in the DATA/ folder. Outputs: statistical results & figures, saved locally. 
    
 
-The folder DATA contains several data high-level files in various formats that allow the replication of all the results and figures reported in the paper from preprocessed data, available at OSF.  
+The folder DATA contains several high-level data files in various formats that allow the replication of all the results and figures reported in the paper from preprocessed data, available at OSF.  
 
       • Exp1_R_burstData_orangeLetter_X.csv: contains summary data for orange letter epochs (channel X) for statistical analysis in R.
       • Exp1_R_burstData_selfPaced_X.csv: contains summary data for self-paced action epochs (channel X) for plotting in Matlab.
