@@ -1,0 +1,17 @@
+function [EEG]  = K1_epochStimLocked(sub,exp) 
+
+% Epoch around orange letter 
+    
+    % Epoch around Trigger 1
+    EEG = pop_loadset( [exp.filepath 'dfrK1_P' num2str(sub) '.set'] );
+    EEG = pop_epoch( EEG, {'Trigger 1'}, [-2.5, 0.5] , 'newname', ['K1_P' num2str(sub) '_stimLockEpochs'], 'epochinfo', 'yes');
+    EEG = pop_saveset( EEG, ['OL_dfrK1_P' num2str(sub)],  [exp.mainpath 'data/epoching/P' num2str(sub) ] );
+    
+% Epoch around SP presses
+    
+    % Epoch around Trigger 1
+    EEG = pop_loadset( [exp.filepath 'dfrK1_P' num2str(sub) '.set'] );
+    EEG = pop_epoch( EEG, {'Trigger 1'}, [-2.5, 0.5] , 'newname', ['K1_P' num2str(sub) '_stimLockEpochs'], 'epochinfo', 'yes');
+    EEG = pop_saveset( EEG, ['OL_dfrK1_P' num2str(sub)],  [exp.mainpath 'data/epoching/P' num2str(sub) ] );
+    
+end
