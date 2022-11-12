@@ -14,7 +14,7 @@ save([exp.processedData, 'K1_actionLocked_allP'], 'SP_action')
 %% Tiled layout - subplot channel 3 for each participant
 load([exp.processedData, 'K1_actionLocked_allP'], 'SP_action')
 %%
-figure
+figure('Position', [25,25,750,750])
 t = tiledlayout('flow')
 ch = 3;
 
@@ -56,10 +56,11 @@ disp(['MeanDecrease:' num2str(decrease(i))]);
 clear idx; 
 
 end
+
 title(t, 'Experiment 1 readiness potentials')
 xlabel(t, 'Time (s)');
 ylabel(t,['EEG amplitude at Cz (uV)']);
 
-exportgraphics(t,[exp.figPath, 'FigS4.tiff'])
+exportgraphics(t,[exp.figPath, 'FigS4.tiff'], 'Resolution', 600)
 
 end

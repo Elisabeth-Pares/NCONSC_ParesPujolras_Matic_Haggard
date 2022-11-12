@@ -13,7 +13,7 @@ end
 
 
 %% Tiled layout - subplot channel 3 for each participant
-figure
+figure('Position', [25,25,750,750])
 t = tiledlayout('flow')
 ch = 3;
 for i = 1:length(exp.sub_selection)
@@ -30,9 +30,9 @@ yline(0, 'LineWidth', 2) %, get(gca, 'ylim'), 'Color', [0 0 0]); p.LineWidth = 2
 rangeBegin = -2.5;
 rangeEnd = 0.5;
 numberOfXTicks = 7;
-xTicks = [100,300,500,600,700];
+xTicks = [100,300,500,700];
 xticks(xTicks);
-xAxisVals = [-2,-1,0,0.5,1];
+xAxisVals = [-2,-1,0,1];
 set(gca,'FontSize', 9, 'XTickLabel',xAxisVals, 'Ydir', 'reverse','ylim', [-20 10], 'xlim', [0 700]);
 line([500 500], get(gca, 'ylim'), 'Color', [0 0 0]); p.LineWidth = 2;    % Plot mean
 title(['ID = ' num2str(i)])
@@ -64,6 +64,7 @@ title(t,'Experiment 2 readiness potentials')
 xlabel(t, 'Time (s)');
 ylabel(t,['EEG amplitude at Cz (uV)']);
 
-exportgraphics(t,[exp.figPath, 'FigS5.tiff'])
+
+exportgraphics(t,[exp.figPath, 'FigS5.tiff'], 'Resolution', 600)
 
 

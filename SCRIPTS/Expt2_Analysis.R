@@ -19,7 +19,7 @@
   require(dplyr)
   require(standardize)
   require(ordinal)
-  }
+}
 ############################################################################################################################
 
 #Define data folder and create output directories
@@ -34,10 +34,14 @@
 
 # Plotting parameters
 colorHot <- c(rgb(0.2, 0, 0), rgb(0.4,0,0),rgb(0.6, 0, 0),rgb(0.8, 0, 0),rgb(1, 0, 0),rgb(1, 0.2, 0),rgb(1, 0.4, 0),rgb(1, 0.6, 0)) 
-
+theme_elis <- function(){
+  theme_classic(base_size=9) + 
+    theme(strip.background = element_rect(colour="white", fill="white"),
+          plot.title = element_text(hjust = 0.5, size = 10)) 
+}
 #Load data			
 #Note: load correct file according to channel
-mydata <- read.csv(paste(dir.data, 'Exp2_R_burstData_OL_CZ.csv', sep = ''), header = TRUE)
+mydata <- read.csv(paste(dir.data, 'Exp2_R_burstData_OL_C3.csv', sep = ''), header = TRUE)
 
 
 #Preprocess
@@ -47,7 +51,7 @@ mydata <- read.csv(paste(dir.data, 'Exp2_R_burstData_OL_CZ.csv', sep = ''), head
   mydata[mydata$burstcount == 0 & mydata$startlast == 250 &mydata$endlast != 250,]$burstcount <- 1 #If default start but no default end, trial started with a burst. 
   mydata[mydata$burstcount == 0 & mydata$startlast == 250 &mydata$endlast == 250 & mydata$durlast == 1,]$endlast <- NA # If default start and end, no bursts. 
   
-
+  
   #transform duration to seconds 
   mydata$tstartlast <- abs(-1.25 + mydata$startlast/200) #-1.5 + mydata$startlast/200 -0.25 start, -0.25 end
   mydata$tendlast <- abs(-1.25 + mydata$endlast/200) #-1.5 + mydata$startlast/200 -0.25 start, -0.25 end
@@ -100,50 +104,50 @@ mydata <- read.csv(paste(dir.data, 'Exp2_R_burstData_OL_CZ.csv', sep = ''), head
 # RP analysis 
 #######################################################################################################
 {
-mydata$rating <- as.factor(mydata$rating)
-#Analyse including ALL subjects
-modelrp_clmm <- clmm(rating ~ 1 + zrpamp + (1|id), 
-                     data = mydata)
-summary(modelrp_clmm)
-RVAideMemoire::Anova.clmm(modelrp_clmm, type = "II")
-
-
-# Control analysi sremoving participants who did not show an RP
-# indices (from 1:17) is: participant 8 (original ID = 12)
-
-rpData <- filter(mydata, (id != 12))
-
-ga_rpamp <- ggplot(mydata, aes(y = zrpamp, x = factor(rating), fill = factor(rating))) + 
-  #geom_boxplot(size = .75) +
-  geom_bar(stat = 'summary', fun = 'mean', show.legend = FALSE) + 
-  geom_hline(yintercept = c(0))+
-  coord_cartesian(ylim = c(-0.35,0.35))+
-  stat_summary(fun.data = mean_se, geom = "errorbar", alpha=1, width = 0.2, inherit.aes = TRUE, show.legend = FALSE)+
-  labs(x = 'Rating', title = 'RP amplitude', y = 'Z') + 
-  scale_fill_manual(values = colorHot) + 
-  theme_classic(base_size = 10)
-
-#Analyse excluding participant w/o RP
-rpData$rating <- as.factor(rpData$rating)
-modelrp_clmm <- clmm(rating ~ 1 + zrpamp + (1|id), 
-                     data = rpData)
-summary(modelrp_clmm)
-RVAideMemoire::Anova.clmm(modelrp_clmm, type = "II")
+  mydata$rating <- as.factor(mydata$rating)
+  #Analyse including ALL subjects
+  modelrp_clmm <- clmm(rating ~ 1 + zrpamp + (1|id), 
+                       data = mydata)
+  summary(modelrp_clmm)
+  RVAideMemoire::Anova.clmm(modelrp_clmm, type = "II")
+  
+  
+  # Control analysi sremoving participants who did not show an RP
+  # indices (from 1:17) is: participant 8 (original ID = 12)
+  
+  rpData <- filter(mydata, (id != 12))
+  
+  ga_rpamp <- ggplot(mydata, aes(y = zrpamp, x = factor(rating), fill = factor(rating))) + 
+    #geom_boxplot(size = .75) +
+    geom_bar(stat = 'summary', fun = 'mean', show.legend = FALSE) + 
+    geom_hline(yintercept = c(0))+
+    coord_cartesian(ylim = c(-0.35,0.35))+
+    stat_summary(fun.data = mean_se, geom = "errorbar", alpha=1, width = 0.2, inherit.aes = TRUE, show.legend = FALSE)+
+    labs(x = 'Rating', title = 'RP amplitude', y = 'Z') + 
+    scale_fill_manual(values = colorHot) + 
+    theme_classic(base_size = 10)
+  
+  #Analyse excluding participant w/o RP
+  rpData$rating <- as.factor(rpData$rating)
+  modelrp_clmm <- clmm(rating ~ 1 + zrpamp + (1|id), 
+                       data = rpData)
+  summary(modelrp_clmm)
+  RVAideMemoire::Anova.clmm(modelrp_clmm, type = "II")
 }
 
 #Figure 3b
 {
-ga_rpamp <- ggplot(mydata, aes(y = zrpamp, x = factor(rating), fill = factor(rating))) + 
-  #geom_boxplot(size = .75) +
-  geom_bar(stat = 'summary', fun = 'mean', show.legend = FALSE) + 
-  geom_hline(yintercept = c(0))+
-  coord_cartesian(ylim = c(-0.35,0.35))+
-  stat_summary(fun.data = mean_se, geom = "errorbar", alpha=1, width = 0.2, inherit.aes = TRUE, show.legend = FALSE)+
-  labs(x = 'Rating', title = 'RP amplitude', y = 'Z') + 
-  scale_fill_manual(values = colorHot) + 
-  theme_classic(base_size = 10)
+  ga_rpamp <- ggplot(mydata, aes(y = zrpamp, x = factor(rating), fill = factor(rating))) + 
+    #geom_boxplot(size = .75) +
+    geom_bar(stat = 'summary', fun = 'mean', show.legend = FALSE) + 
+    geom_hline(yintercept = c(0))+
+    coord_cartesian(ylim = c(-0.35,0.35))+
+    stat_summary(fun.data = mean_se, geom = "errorbar", alpha=1, width = 0.2, inherit.aes = TRUE, show.legend = FALSE)+
+    labs(x = 'Rating', title = 'RP amplitude', y = 'z-RP amplitude') + 
+    scale_fill_manual(values = colorHot) + 
+    theme_classic(base_size = 10)
   
-  ggsave(paste(dir.figures, 'Fig3_b.tiff', sep = ''), Fig3_cde, 
+  ggsave(paste(dir.figures, 'Fig3_b.tiff', sep = ''), ga_rpamp, 
          width = 5, height = 5, units = "cm", dpi = 600)
 }
 
@@ -156,64 +160,64 @@ ga_rpamp <- ggplot(mydata, aes(y = zrpamp, x = factor(rating), fill = factor(rat
 # Using the clmm package because p values are interpretable here (not so in the alternative MCMC package)
 {
   
-# Using a non-bayesian package 
-mydata$rating <- as.factor(mydata$rating)
-
-model1_clmm <- clmm(rating ~ 1 + zburstrate + (1|id), 
-                    data = mydata)
-m1sum <-summary(model1_clmm)
-RVAideMemoire::Anova.clmm(model1_clmm, type = "II")
-
-
-model2_clmm <- clmm(rating ~ 1 + zbetamean + (1|id), 
-                    data = mydata)
-m2sum <-summary(model2_clmm)
-RVAideMemoire::Anova.clmm(model2_clmm, type = "II")
-
-model3_clmm <- clmm(rating ~ 1 + ztendlast + (1|id), 
-                    data = mydata[mydata$burstcount != 0,]) #Exclude trials with no bursts
-m3sum <-summary(model3_clmm)
-RVAideMemoire::Anova.clmm(model3_clmm, type = "II")
-
-#FDR adjust
-p.adjust(c(m1sum$coefficients[,"Pr(>|z|)"][8],m2sum$coefficients[,"Pr(>|z|)"][8],m3sum$coefficients[,"Pr(>|z|)"][8]), method = 'fdr')
+  # Using a non-bayesian package 
+  mydata$rating <- as.factor(mydata$rating)
+  
+  model1_clmm <- clmm(rating ~ 1 + zburstrate + (1|id), 
+                      data = mydata)
+  m1sum <-summary(model1_clmm)
+  RVAideMemoire::Anova.clmm(model1_clmm, type = "II")
+  
+  
+  model2_clmm <- clmm(rating ~ 1 + zbetamean + (1|id), 
+                      data = mydata)
+  m2sum <-summary(model2_clmm)
+  RVAideMemoire::Anova.clmm(model2_clmm, type = "II")
+  
+  model3_clmm <- clmm(rating ~ 1 + ztendlast + (1|id), 
+                      data = mydata[mydata$burstcount != 0,]) #Exclude trials with no bursts
+  m3sum <-summary(model3_clmm)
+  RVAideMemoire::Anova.clmm(model3_clmm, type = "II")
+  
+  #FDR adjust
+  p.adjust(c(m1sum$coefficients[,"Pr(>|z|)"][8],m2sum$coefficients[,"Pr(>|z|)"][8],m3sum$coefficients[,"Pr(>|z|)"][8]), method = 'fdr')
 }
 
 # Control model including time of last keypress 
 {
-mydata$rating <- as.factor(mydata$rating)
-model11_clmm <- clmm(rating ~ 1 + zburstrate*lastKeypress + (1|id), 
-                     data = mydata)
-m11sum <- summary(model11_clmm)
-RVAideMemoire::Anova.clmm(model11_clmm, type = "II")
-
-model22_clmm <- clmm(rating ~ 1 + zbetamean*lastKeypress + (1|id), 
-                     data = mydata)
-m22sum <-summary(model22_clmm)
-RVAideMemoire::Anova.clmm(model22_clmm, type = "II")
-
-model33_clmm <- clmm(rating ~ 1 + ztendlast*lastKeypress + (1|id), 
-                     data = mydata[mydata$burstcount != 0,])
-m33sum <- summary(model33_clmm)
-RVAideMemoire::Anova.clmm(model33_clmm, type = "II")
-
-#FDR adjust of beta band values
-p.adjust(c(m11sum$coefficients[,"Pr(>|z|)"][8],m22sum$coefficients[,"Pr(>|z|)"][8],m33sum$coefficients[,"Pr(>|z|)"][8],
-           m11sum$coefficients[,"Pr(>|z|)"][9],m22sum$coefficients[,"Pr(>|z|)"][9],m33sum$coefficients[,"Pr(>|z|)"][9]), method = 'fdr')
-
-ga <- mydata %>%
-  group_by(id,rating) %>%
-  summarise(ga_kptime = mean(lastKeypress))
-
-kptime <- ggplot(ga, aes(y = ga_kptime, x = factor(rating), fill = factor(rating))) + 
-  geom_bar(stat = 'summary', fun = 'mean', show.legend = FALSE) + 
-  geom_hline(yintercept = c(0))+
-  stat_summary(fun.data = mean_se, geom = "errorbar", alpha=1, width = 0.2, inherit.aes = TRUE, show.legend = FALSE)+
-  labs(x = 'Rating', title = 'KPtime', y = 'Z') + 
-  scale_fill_manual(values = colorHot) + 
-  theme_classic(base_size = 10)
-
-kptime
+  mydata$rating <- as.factor(mydata$rating)
+  model11_clmm <- clmm(rating ~ 1 + zburstrate*lastKeypress + (1|id), 
+                       data = mydata)
+  m11sum <- summary(model11_clmm)
+  RVAideMemoire::Anova.clmm(model11_clmm, type = "II")
+  
+  model22_clmm <- clmm(rating ~ 1 + zbetamean*lastKeypress + (1|id), 
+                       data = mydata)
+  m22sum <-summary(model22_clmm)
+  RVAideMemoire::Anova.clmm(model22_clmm, type = "II")
+  
+  model33_clmm <- clmm(rating ~ 1 + ztendlast*lastKeypress + (1|id), 
+                       data = mydata[mydata$burstcount != 0,])
+  m33sum <- summary(model33_clmm)
+  RVAideMemoire::Anova.clmm(model33_clmm, type = "II")
+  
+  #FDR adjust of beta band values
+  p.adjust(c(m11sum$coefficients[,"Pr(>|z|)"][8],m22sum$coefficients[,"Pr(>|z|)"][8],m33sum$coefficients[,"Pr(>|z|)"][8],
+             m11sum$coefficients[,"Pr(>|z|)"][9],m22sum$coefficients[,"Pr(>|z|)"][9],m33sum$coefficients[,"Pr(>|z|)"][9]), method = 'fdr')
+  
+  ga <- mydata %>%
+    group_by(id,rating) %>%
+    summarise(ga_kptime = mean(lastKeypress))
+  
+  kptime <- ggplot(ga, aes(y = ga_kptime, x = factor(rating), fill = factor(rating))) + 
+    geom_bar(stat = 'summary', fun = 'mean', show.legend = FALSE) + 
+    geom_hline(yintercept = c(0))+
+    stat_summary(fun.data = mean_se, geom = "errorbar", alpha=1, width = 0.2, inherit.aes = TRUE, show.legend = FALSE)+
+    labs(x = 'Rating', title = 'KPtime', y = 'Z') + 
+    scale_fill_manual(values = colorHot) + 
+    theme_classic(base_size = 10)
+  
+  kptime
 }
 
 ############################################################################################################################
@@ -276,7 +280,7 @@ t.test(allStats, paired = FALSE, mu = 0)
     theme_classic(base_size = 10)+
     theme(plot.title = element_text(hjust=0.5))
   
-
+  
   #Burst rate & ratings - BAR GRAPHS
   require(ggplot2)
   ga_burstrate <- ggplot(mydata, aes(y = zburstrate, x = factor(rating), fill = factor(rating))) + 
@@ -336,3 +340,20 @@ t.test(allStats, paired = FALSE, mu = 0)
   
 }
 
+#Individual participant ratings  - Figure S3
+mydata <- mydata%>%
+  group_by(id)%>%
+  mutate(part = dplyr::cur_group_id())%>%
+  ungroup()
+
+SS_Ratings = ggplot(mydata, aes(x = as.factor(rating), fill = as.factor(rating))) +
+  geom_bar(stat= "count") + 
+  theme_elis()+
+  scale_x_discrete(name = 'Rating') +
+  scale_y_continuous(name = 'Trial count') +
+  scale_fill_manual(values = colorHot, name = 'Rating')+
+  facet_wrap(part~.) 
+SS_Ratings
+
+ggsave(paste(dir.figures, 'Figure S3.tiff'), SS_Ratings, 
+       width = 16, height = 16, units = "cm", dpi = 600)

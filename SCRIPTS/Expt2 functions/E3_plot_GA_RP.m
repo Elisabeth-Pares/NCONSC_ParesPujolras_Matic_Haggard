@@ -31,7 +31,7 @@ end
 set(gca, 'FontSize', 12)
 set(gca,'Ydir','reverse')
 set(0,'DefaultAxesColorOrder',hot(15))'
-xlabel('Time (s)');ylabel('EEG amplitude at Cz (uV)');
+xlabel('Time (s)');ylabel('Cz amplitude (uV)');
 ax = gca;
 ax.XTick = [1,100,200,300];
 ax.XTickLabel = ({'-1.5','-1','-0.5','0'});

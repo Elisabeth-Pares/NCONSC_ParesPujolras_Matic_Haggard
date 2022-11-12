@@ -129,8 +129,10 @@ sd(gadata$perc_nr)
 # 1. Behavioural analysis - RT
 #########################################################################################
 
-allData <- read.csv(paste(dir.data, 'Exp1_longData.csv', sep = '')) # merged data with EEG trials only 
-
+allData <- read.csv(paste(dir.data, 'Exp1_RTData.csv', sep = '')) # merged data with RTs corresponding to EEG trials only 
+allData[allData$cond == 1,]$cond = 'AW'
+allData[allData$cond == 2,]$cond = 'NR'
+allData[allData$cond == 3,]$cond = 'SP'
 
 behData <- allData %>%
   group_by(id)%>%
@@ -396,8 +398,7 @@ Fig_S7_ss_aw = ggplot(ga_w, aes(x = RecodingSP12, y = meanw, fill = RecodingSP12
   scale_x_discrete(name = 'RT (s)', labels = c('Awareness reports', 'Self-paced actions'))+
   scale_y_continuous(name = 'W-time before action')+
   scale_fill_manual(values = rev(colorAll), name = '')+
-  theme_elis()#+
-#facet_wrap(id~.)
+  theme_elis()
 Fig_S7_ss_aw
 
 ggsave(paste(dir.figures, 'FigureS7.tiff'), Fig_S7_ss_aw, 

@@ -1,37 +1,37 @@
 %% K1 - create a separate file for each condition
 
-% for sub = exp.sub_selection(1:end)
-%     filename = ['K1_aRepochOL12_P' num2str(sub) '.set'];
-%     
-%     % Awareness report
-%     EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
-%     EEG = pop_selectevent( EEG, 'type',{'Trigger 1'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%     EEG = pop_selectevent( EEG, 'value',{'orangeResponse_AWkey'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%     EEG.setname= ['AW_OSF_aRepochOL12_P' num2str(sub)];
-%     EEG = pop_saveset( EEG, ['AW_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
-%     
-%     % Self-paced movement
-%     EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
-%     EEG = pop_selectevent( EEG, 'type',{'Trigger 1'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%     EEG = pop_selectevent( EEG, 'value',{'orangeResponse_SPkey'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%     EEG.setname= ['SP_OSF_aRepochOL12_P' num2str(sub)];
-%     EEG = pop_saveset( EEG, ['SP_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
-%     
-%     % No response
-%     EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
-%     EEG = pop_selectevent( EEG, 'type',{'Trigger 1'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%     EEG = pop_selectevent( EEG, 'value',{'orange_noResponse'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%     EEG.setname= ['NR_OSF_aRepochOL12_P' num2str(sub)];
-%     EEG = pop_saveset( EEG, ['NR_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
-%     
-%     % Both
-%     EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
-%     if ~isempty(find(cell2mat(cellfun(@(c)strcmp(c,'orangeResponse_both'),{EEG.event.value},'UniformOutput',false))))
-%         EEG = pop_selectevent( EEG, 'value',{'orangeResponse_both'},'deleteevents','on','deleteepochs','on','invertepochs','off');
-%         EEG.setname= ['BOTH_OSF_aRepochOL12_P' num2str(sub)];
-%         EEG = pop_saveset( EEG, ['BOTH_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
-%     end
-% end
+for sub = exp.sub_id(1:end)
+    filename = ['K1_aRepochOL12_P' num2str(sub) '.set'];
+    
+    % Awareness report
+    EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
+    EEG = pop_selectevent( EEG, 'type',{'Trigger 1'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+    EEG = pop_selectevent( EEG, 'value',{'orangeResponse_AWkey'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+    EEG.setname= ['AW_OSF_aRepochOL12_P' num2str(sub)];
+    EEG = pop_saveset( EEG, ['AW_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
+    
+    % Self-paced movement
+    EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
+    EEG = pop_selectevent( EEG, 'type',{'Trigger 1'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+    EEG = pop_selectevent( EEG, 'value',{'orangeResponse_SPkey'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+    EEG.setname= ['SP_OSF_aRepochOL12_P' num2str(sub)];
+    EEG = pop_saveset( EEG, ['SP_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
+    
+    % No response
+    EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
+    EEG = pop_selectevent( EEG, 'type',{'Trigger 1'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+    EEG = pop_selectevent( EEG, 'value',{'orange_noResponse'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+    EEG.setname= ['NR_OSF_aRepochOL12_P' num2str(sub)];
+    EEG = pop_saveset( EEG, ['NR_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
+    
+    % Both
+    EEG = pop_loadset('filename',filename,'filepath',exp.filepath);
+    if ~isempty(find(cell2mat(cellfun(@(c)strcmp(c,'orangeResponse_both'),{EEG.event.value},'UniformOutput',false))))
+        EEG = pop_selectevent( EEG, 'value',{'orangeResponse_both'},'deleteevents','on','deleteepochs','on','invertepochs','off');
+        EEG.setname= ['BOTH_OSF_aRepochOL12_P' num2str(sub)];
+        EEG = pop_saveset( EEG, ['BOTH_OSF_aRepochOL12_P' num2str(sub)], exp.filepath);
+    end
+end
 
 
 %% Put in a single file

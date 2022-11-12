@@ -26,6 +26,14 @@ for i =  exp.sub_id(1:end)
     thisP= mean(EEG.data,3); % average across trials
     allP(:,:,j) = [thisP];
     
+    if i<7 %Put in the right position for averaging in topography 
+        fcz = thisP(2,:,:);
+        f3 = thisP(7,:,:);
+        allP(7,:,j) = fcz; 
+        allP(2,:,j) = f3; 
+        clear cz; clear f3;
+    end
+    
     subplot(5,4,j);
     plot(1:700,thisP(exp.chans,:))
     clear thisP; clear indelec;
@@ -37,4 +45,4 @@ allEEG.chanlocs = EEG.chanlocs;
 allEEG.times = EEG.times;
 
 times = [-0.1]; %Time to plot
-E3_plotTopography(allEEG, times, 'Experiment 2 RP topography')
+E3_plotTopography(allEEG, times, 'Experiment 2 RP topography',exp)

@@ -253,3 +253,6 @@ K1_burstDescription(exp, 'selfPaced');
 % ===================================================================================
 % Experimental duration
 expDuration = K1_expDuration(exp);
+
+%% Extract RTs 
+K1_rtExtract(exp, 'orangeLetter')
