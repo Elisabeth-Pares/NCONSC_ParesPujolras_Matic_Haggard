@@ -219,7 +219,7 @@ sk
 #########################################################################################
 
 #Load RP dataset
-rpdata <- read.csv(paste(dir.data, 'K1_RPamp_12_forR.csv', sep = ''), header = FALSE)
+rpdata <- read.csv(paste(dir.data, 'Exp1_RPdata_orangeLetter.csv', sep = ''), header = FALSE)
 
 colnames(rpdata) <- c('id', 'cond', 'rpAmp')
 
