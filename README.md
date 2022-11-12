@@ -19,7 +19,8 @@ The folder DATA contains several high-level data files in various formats that a
 
       • Exp1_R_burstData_orangeLetter_X.csv: contains summary data for orange letter epochs (channel X) for statistical analysis in R.
       • Exp1_R_burstData_selfPaced_X.csv: contains summary data for self-paced action epochs (channel X) for plotting in Matlab.
-      • Exp1_R_RPdata_orangeLetter_forR.csv: contains averaged Cz amplitude 100 ms pre-orange letter (channel CZ) for statistical analysis in R.
+      • Exp1_R_RPdata_orangeLetter.csv: contains averaged Cz amplitude 100 ms pre-orange letter (channel CZ) for statistical analysis in R.
+      • Exp1_RTdata.csv: contains RT data for orange letter epochs, extracted from EEG triggers, to produce RT plots in R.
 
       • Exp2_R_burstData_OL_X.csv: contains summary data for orange letter epochs (channel X) for statistical analysis in R.
 
