@@ -1,6 +1,6 @@
 ############################################################################################################################
 # Feeling ready: the role of beta oscillations in the prospective feeling of readiness
-# Author: Elisabeth ParÈs-Pujolr‡s
+# Author: Elisabeth Par√©s-Pujolr√†s
 # Date: 09/11//2021
 # Experiment 2 statistical analysis & plots 
 ############################################################################################################################
@@ -157,30 +157,40 @@ mydata <- read.csv(paste(dir.data, 'Exp2_R_burstData_OL_C3.csv', sep = ''), head
 #######################################################################################################
 # Following Little et al. 2019, compare 3 models to predict performance 
 # Because the ratings are on a likert scale, we need to use a different distribution 
-# Using the clmm package because p values are interpretable here (not so in the alternative MCMC package)
+# Using the clmm package because p values are interpretable here 
+# Note: CLMM summary function provides Wald test statistics. chisq = z value ^ 2
+
 {
-  
   # Using a non-bayesian package 
   mydata$rating <- as.factor(mydata$rating)
   
   model1_clmm <- clmm(rating ~ 1 + zburstrate + (1|id), 
                       data = mydata)
   m1sum <-summary(model1_clmm)
-  RVAideMemoire::Anova.clmm(model1_clmm, type = "II")
+  m1_chisq = m1sum$coefficients[,'z value'][8]^2 #chi square statistic for the Wald test = z squared
+  m1_pval = m1sum$coefficients[,'Pr(>|z|)'][8]
+  
+  #RVAideMemoire::Anova.clmm(model1_clmm, type = "II") # Equivalent likelihood ratio test
   
   
   model2_clmm <- clmm(rating ~ 1 + zbetamean + (1|id), 
                       data = mydata)
   m2sum <-summary(model2_clmm)
-  RVAideMemoire::Anova.clmm(model2_clmm, type = "II")
+  m2_chisq = m2sum$coefficients[,'z value'][8]^2 #chi square statistic for the Wald test = z squared
+  m2_pval = m2sum$coefficients[,'Pr(>|z|)'][8]
+  
+  #RVAideMemoire::Anova.clmm(model2_clmm, type = "II") #Equivalent likelihood ratio test
   
   model3_clmm <- clmm(rating ~ 1 + ztendlast + (1|id), 
                       data = mydata[mydata$burstcount != 0,]) #Exclude trials with no bursts
   m3sum <-summary(model3_clmm)
-  RVAideMemoire::Anova.clmm(model3_clmm, type = "II")
+  m3_chisq = m3sum$coefficients[,'z value'][8]^2 #chi square statistic for the Wald test = z squared
+  m3_pval = m3sum$coefficients[,'Pr(>|z|)'][8]
+  
+  #RVAideMemoire::Anova.clmm(model3_clmm, type = "II")  #Equivalent likelihood ratio test
   
   #FDR adjust
-  p.adjust(c(m1sum$coefficients[,"Pr(>|z|)"][8],m2sum$coefficients[,"Pr(>|z|)"][8],m3sum$coefficients[,"Pr(>|z|)"][8]), method = 'fdr')
+  p.adjust(c(m1_pval, m2_pval, m3_pval), method = 'fdr')
 }
 
 # Control model including time of last keypress 
@@ -189,17 +199,25 @@ mydata <- read.csv(paste(dir.data, 'Exp2_R_burstData_OL_C3.csv', sep = ''), head
   model11_clmm <- clmm(rating ~ 1 + zburstrate*lastKeypress + (1|id), 
                        data = mydata)
   m11sum <- summary(model11_clmm)
-  RVAideMemoire::Anova.clmm(model11_clmm, type = "II")
+  m11_chisq = m11sum$coefficients[,'z value'][8]^2 #chi square statistic for the Wald test = z squared
+  m11_pval = m11sum$coefficients[,'Pr(>|z|)'][8]
+  #RVAideMemoire::Anova.clmm(model11_clmm, type = "II") 
   
   model22_clmm <- clmm(rating ~ 1 + zbetamean*lastKeypress + (1|id), 
                        data = mydata)
   m22sum <-summary(model22_clmm)
-  RVAideMemoire::Anova.clmm(model22_clmm, type = "II")
+  m22_chisq = m22sum$coefficients[,'z value'][8]^2 #chi square statistic for the Wald test = z squared
+  m22_pval = m22sum$coefficients[,'Pr(>|z|)'][8]
+  
+  #RVAideMemoire::Anova.clmm(model22_clmm, type = "II")
   
   model33_clmm <- clmm(rating ~ 1 + ztendlast*lastKeypress + (1|id), 
                        data = mydata[mydata$burstcount != 0,])
   m33sum <- summary(model33_clmm)
-  RVAideMemoire::Anova.clmm(model33_clmm, type = "II")
+  m33_chisq = m33sum$coefficients[,'z value'][8]^2 #chi square statistic for the Wald test = z squared
+  m33_pval = m33sum$coefficients[,'Pr(>|z|)'][8]
+  
+  #RVAideMemoire::Anova.clmm(model33_clmm, type = "II")
   
   #FDR adjust of beta band values
   p.adjust(c(m11sum$coefficients[,"Pr(>|z|)"][8],m22sum$coefficients[,"Pr(>|z|)"][8],m33sum$coefficients[,"Pr(>|z|)"][8],
