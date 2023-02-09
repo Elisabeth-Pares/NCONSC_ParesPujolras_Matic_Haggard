@@ -81,10 +81,9 @@ E3_getGA_plotSP_RPs(exp)
 % Plot & save Figure S6
 EEG = E3_getAverages(exp)
 
-% %% Reload post-R processed files to add binary high/low ERD classifications 
-% %% Add mean_dichotomous ratings (mean_dicrat) values to the files containing
-% % the EEG for averaging & ERD obtention 
-% E3_addBinaryCoding(exper,newDat)
+%% Plot pre-orange power sorted by high/low readiness ratings
+% the EEG for averaging & ERD obtention 
+E3_plotPower(exp,newDat)
 
 %% Additional analysis    
 % ========================================================================
