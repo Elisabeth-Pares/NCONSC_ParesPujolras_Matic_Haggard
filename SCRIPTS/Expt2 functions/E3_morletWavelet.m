@@ -51,10 +51,8 @@ for sub = exper.sub_id(1:end)
         % initialize output time-frequency data
         tf = zeros(length(frex),epoch_dur); %EEG.pnts
         
-        % now compute the FFT of all trials concatenated - edge effects
-        % only on first and last trial!
+        % now compute the FFT of all trials concatenated 
         alldata = reshape(EEG.data(strcmpi(channel2use,{EEG.chanlocs.labels}),1:epoch_dur,:) ,1,[]);
-        %disp(num2str(size(EEG.data(strcmpi(channel2use,{EEG.chanlocs.labels}),1:epoch_dur,:))))
         dataX   = fft(alldata ,nConv );
         
         % loop over frequencies
@@ -83,7 +81,6 @@ for sub = exper.sub_id(1:end)
         
         dat{id}.st_amp{c}(:,1:EEG.trials) = squeeze(mean(sqrt(dat{id}.st_tf{c}(:,:,1:EEG.trials))));
            
-        %figure
         %Plot 1 sample trials
         % Specify positions in the graph
         if plotting == 2
