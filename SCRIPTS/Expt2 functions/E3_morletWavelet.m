@@ -118,9 +118,7 @@ for sub = exper.sub_id(1:end)
         
 end
 % Plot grand-average
-% with amplitude and power spectra - CAREFUL, AMP doesnt seem to match TF
-% Update: now it does! error was in line 67, now commented out - were
-% looking only at frequency = 30Hz!
+% with amplitude and power spectra 
 
 if plotting == 1
     figure
