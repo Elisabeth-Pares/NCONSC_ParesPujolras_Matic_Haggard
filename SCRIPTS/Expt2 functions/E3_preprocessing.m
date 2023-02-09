@@ -36,7 +36,7 @@ for e = 1:length(exp.epochs)
     EEG = eeg_checkset( EEG ); % set right channel names before ICA
     EEG = pop_runica(EEG, 'extended',0,'interupt','on', 'chanind', exp.icachanind);
     EEG = eeg_checkset( EEG ); % set right channel names before ICA
-    EEG = pop_saveset(EEG, ['NEWNEW_ICA_b' exp.epochLabel{e} 'dfrE3_P' num2str(sub)], exp.filepath);
+    EEG = pop_saveset(EEG, ['ICA_b' exp.epochLabel{e} 'dfrE3_P' num2str(sub)], exp.filepath);
 end
 clear EEG;
 end
