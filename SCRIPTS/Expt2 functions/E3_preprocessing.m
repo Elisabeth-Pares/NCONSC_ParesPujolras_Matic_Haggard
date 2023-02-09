@@ -12,7 +12,7 @@ EEG = pop_reref( EEG, [27 28] );    % re-reference to average of mastoids
 EEG = eeg_checkset( EEG );
 filename = ['rE3_P' num2str(sub)];
 % Filter
-EEG  = pop_eegfiltnew(EEG,  exp.filter.lowerbound, exp.filter.upperbound,6);
+EEG  = pop_basicfilter( EEG,  1:30 , 'Boundary', 'boundary', 'Cutoff', [exp.filter.lowerbound  exp.filter.upperbound], 'Design', 'butter', 'Filter', 'bandpass', 'order',8);
 EEG = eeg_checkset( EEG );
 filename = ['frE3_P' num2str(sub)];
 % Downsample
