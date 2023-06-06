@@ -73,7 +73,6 @@ for sub = exper.sub_id(1:end)
             disp(num2str(size(as)))
             % compute power for single trials
             dat{id}.st_tf{c}(fi,:,1:EEG.trials) = abs(as).^2;
-            %dat{id}.st_amp{c}(:,1:EEG.trials) = abs(as); %I think this is taking only the last frequency...!
             
             % compute power and average over trials
             dat{id}.tf{c}(fi,:) = mean(abs(as).^2 ,2);
